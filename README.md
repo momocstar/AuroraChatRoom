@@ -27,3 +27,8 @@ SmartNettyFrame框架为个人开发，封装了netty + protobuf + websocket 提
 
 微信：微信直接点开链接即可授权到对应用户，直接登录。
 
+
+
+>  SmartNettyFrame项目地址
+
+https://github.com/momocstar/SmartNettyFrame
