@@ -1,0 +1,51 @@
+syntax = "proto3"; // proto3 必须加此注解
+
+option java_package = "com.momoc.multi.chat.room.common.proto"; // 生成类的包名，注意：会在指定路径下按照该包名的定义来生成文件夹
+
+//VO结尾不允许发送信息，做为一个公共的类来使用
+//用户群聊信息
+message UserChannelChatInfoDTO{
+
+  //头像
+  optional string headPic = 1;
+  int64  userid = 2;
+  //昵称
+  string nickname = 3 ;
+  //群聊等级
+  int32 level = 4;
+  //群聊头衔
+  optional string rankName = 5;
+}
+
+message ChannelMessageDTO{
+  optional string content = 1;
+  //频道id
+  int64 channelId = 2;
+  //消息类型
+  int32 type = 3;
+  //发送人
+  int64 userid = 4;
+  optional string headPic = 5;
+
+}
+
+//用户在群里发送信息
+message UserSendMessage_1004{
+    ChannelMessageDTO message = 1;
+}
+//接收消息
+message UserReceiveMessage_1005{
+  ChannelMessageDTO message = 1;
+}
+//用户加入群聊通知
+message UserJoinChannelNotice_1006{
+  int64 channelId = 1;
+  UserChannelChatInfoDTO userInfo = 2;
+}
+
+//用户频道在线状态变更
+message UserOnlineStatusNotice_1007{
+  int64 channelId = 1;
+  int64 userid = 2;
+  bool online = 3;
+}

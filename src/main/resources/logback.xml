@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <jmxConfigurator/>
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <springProperty scope="context" name="jsonLogFile" source="json.log.file"/>
+    <property name="LOG_HOME" value="${BUILD_FOLDER:-logs}"/>
+    <property name="JSON_LOG_FILE" value="${jsonLogFile:-${LOG_HOME}.json}"/>
+
+    <!-- You can override this to have a custom pattern
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:-%5p}) [%clr(${springAppName:-})] [%clr(${PID:- })] %clr(%X{tranceID:- }) >>>> [%15.15t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    -->
+    <!-- You can override this to have a custom pattern -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+    <property name="FILE_SIZE" value="10MB"/>
+    <property name="MAX_HISTORY" value="20"/>
+
+    <!-- 控制台输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- 1格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%yellow(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %clr(%-5level) %logger{36} - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+    <appender name="console_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/console.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 之前的  rollingPolicy和triggeringPolicy冲突了  用一个新的标签  结合两者 -->
+            <!--日志文件输出的文件名-->
+            <fileNamePattern>${LOG_HOME}/%d/console.%i.log</fileNamePattern>
+            <!-- 日志文件保留天数 -->
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 日志文件最大尺寸 -->
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>trace</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+    <!-- trace级别，按照每天生成日志文件 -->
+    <appender name="trace" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--只保留固定配置级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>trace</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 之前的  rollingPolicy和triggeringPolicy冲突了  用一个新的标签  结合两者 -->
+            <!--日志文件输出的文件名-->
+            <fileNamePattern>${LOG_HOME}/%d/trace.%i.log</fileNamePattern>
+            <!-- 日志文件保留天数 -->
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 日志文件最大尺寸 -->
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- debug级别，按照每天生成日志文件 -->
+    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/logs/debug.log</file>
+        <!--只保留固定配置级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 之前的  rollingPolicy和triggeringPolicy冲突了  用一个新的标签  结合两者 -->
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/%d/debug.%i.log</FileNamePattern>
+            <!-- 日志文件保留天数 -->
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+            <!-- 日志文件最大尺寸 -->
+            <maxFileSize>${FILE_SIZE}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- info级别，按照每天生成日志文件 -->
+    <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/logs/info.log</file>
+        <!--只保留固定配置级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 之前的  rollingPolicy和triggeringPolicy冲突了  用一个新的标签  结合两者 -->
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/%d/info.%i.log</FileNamePattern>
+            <!-- 日志文件保留天数 -->
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+            <!-- 日志文件最大尺寸 -->
+            <maxFileSize>${FILE_SIZE}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- warn级别，按照每天生成日志文件 -->
+    <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/logs/warn.log</file>
+        <!--只保留固定配置级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 之前的  rollingPolicy和triggeringPolicy冲突了  用一个新的标签  结合两者 -->
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/%d/warn.%i.log</FileNamePattern>
+            <!-- 日志文件保留天数 -->
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+            <!-- 日志文件最大尺寸 -->
+            <maxFileSize>${FILE_SIZE}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- error级别，按照每天生成日志文件 -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/logs/error.log</file>
+        <!--只保留固定配置级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 之前的  rollingPolicy和triggeringPolicy冲突了  用一个新的标签  结合两者 -->
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/%d/error.%i.log</FileNamePattern>
+            <!-- 日志文件保留天数 -->
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+            <!-- 日志文件最大尺寸 -->
+            <maxFileSize>${FILE_SIZE}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 日志级别排序为： TRACE < DEBUG < INFO < WARN < ERROR -->
+    <!-- 日志输出级别 -->
+    <root level="info">
+        <appender-ref ref="console" />
+        <appender-ref ref="console_file" />
+        <appender-ref ref="trace" />
+        <appender-ref ref="debug" />
+        <appender-ref ref="info" />
+        <appender-ref ref="warn" />
+        <appender-ref ref="error" />
+    </root>
+
+</configuration>

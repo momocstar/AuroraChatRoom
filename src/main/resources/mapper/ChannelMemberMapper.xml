@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.momoc.multi.chat.room.common.mapper.ChannelMemberMapper">
+
+    <select id="selectChannelUser" resultType="com.momoc.multi.chat.room.common.vo.UserChannelInfoVO">
+        select  cm.userid,u.head_pic,u.nickname from channel_member cm join app_user u on u.id = cm.userid where cm.channel_id =  #{channelId}
+    </select>
+
+<!-- 分页查询案例
+<select id="selectMyShareByPage" resultType="com.hzu.momoc.component.share.model.vo.ShareVO">-->
+<!--        select-->
+<!--        id,gmt_create,gmt_modified,user_id,token,url,expire_time,share_name-->
+<!--        from cloud_file_share-->
+<!--        where user_id =#{userId}-->
+<!--        <if test="searchParamsMap != null">-->
+<!--            <if test="searchParamsMap.containsKey('shareName') and searchParamsMap.shareName!=''"  >-->
+<!--                and share_name like CONCAT(#{searchParamsMap.shareName},'%')-->
+<!--            </if>-->
+<!--            <if test="searchParamsMap.containsKey('startTime') and searchParamsMap.startTime!=''"  >-->
+<!--                and gmt_create &gt;= #{searchParamsMap.startTime}-->
+<!--            </if>-->
+<!--            <if test="searchParamsMap.containsKey('endTime') and searchParamsMap.endTime!=''"  >-->
+<!--                and gmt_create &lt;= #{searchParamsMap.endTime}-->
+<!--            </if>-->
+<!--        </if>-->
+<!--        order by gmt_create desc-->
+<!--    </select>-->
+</mapper>

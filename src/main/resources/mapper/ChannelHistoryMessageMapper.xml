@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.momoc.multi.chat.room.common.mapper.ChannelHistoryMessageMapper">
+
+    <select id="selectChannelHistoryMessageByPager"
+            resultType="com.momoc.multi.chat.room.common.model.channel.ChannelHistoryMessagePojo">
+        select
+        id,userid,channel_id,type,content
+        from channel_history_message
+        where channel_id =#{channelId}
+        <if test="messageMaxId!=0">
+            and id <![CDATA[<]]> #{messageMaxId}
+        </if>
+        order by id desc
+    </select>
+</mapper>

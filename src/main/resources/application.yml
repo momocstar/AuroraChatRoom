@@ -1,0 +1,17 @@
+mybatis-plus:
+  configuration:
+    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射 address_book ---> addressBook
+    map-underscore-to-camel-case: false
+momoc:
+  netty:
+    port: 2300
+    # 用于处理链接建立的线程池
+#    bossThreadNums: 1
+#    workThreadNums: 2
+    connectTimeout: 15000
+    #消息id长度，二进制 仅支持8的倍数，最大为32位，目前仅兼容16位 和 32位。可选值16 32
+    msgIdLength: 16
+    debug: false
+    websocketPath: '/ws'
+
+
