@@ -6,6 +6,7 @@
 SmartNettyFrame框架为个人开发，封装了netty + protobuf + websocket 提供一些注解来消息分发、用户上下线事件等功能
 ```
 样例地址：https://server.668628.xyz
+
 实现功能：
 
 1、回话管理器：每个weboscket链接都有唯一的id，通过会话id，获取对应的channel ，并发送信息。
