@@ -1,3 +1,5 @@
+
+分流地址：https://gitee.com/aurora-momoc
 本项目技术：netty + protobuf、websocket、spring boot 开箱即用。
 
 这个聊天室使用SmartNettyFrame框架。
@@ -38,5 +40,5 @@ https://github.com/momocstar/SmartNettyFrame
 
 > 前端项目地址
 
-https://gitee.com/hzumomoc/vue-protobuf-websocket-typescript
+https://gitee.com/aurora-momoc/vue-protobuf-websocket-typescript
 
